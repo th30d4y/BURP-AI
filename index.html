@@ -326,6 +326,96 @@
             color: var(--dark-brown);
         }
 
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .app-tag {
+            background: linear-gradient(135deg, #FFF5ED 0%, #FFFBF8 100%);
+            border: 3px solid var(--burnt-orange);
+            padding: 1rem;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 700;
+            transition: all 0.3s;
+            transform: rotate(-2deg);
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.15);
+        }
+
+        .app-tag:hover {
+            transform: rotate(0deg) scale(1.08);
+            background: linear-gradient(135deg, var(--burnt-orange), #FF8C42);
+            color: var(--cream);
+            box-shadow: 6px 6px 0 rgba(0,0,0,0.2), 0 0 20px var(--mustard);
+        }
+
+        .app-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-modal.active {
+            display: flex;
+        }
+
+        .app-modal-content {
+            background: var(--cream);
+            padding: 2rem;
+            border: 6px solid var(--burnt-orange);
+            max-width: 500px;
+            box-shadow: 12px 12px 0 rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .app-modal-content h3 {
+            color: var(--burnt-orange);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .app-modal-content p {
+            color: var(--dark-brown);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--burnt-orange);
+            color: var(--cream);
+            border: 2px solid var(--dark-brown);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .close-modal:hover {
+            background: var(--dark-brown);
+            color: var(--mustard);
+        }
+
+        .app-modal {
+            display: none;
+        }
+
+        .app-modal.active {
+            display: flex;
+        }
+
         .divider {
             height: 3px;
             background: repeating-linear-gradient(90deg, var(--burnt-orange), var(--burnt-orange) 10px, var(--mustard) 10px, var(--mustard) 20px);
@@ -552,7 +642,25 @@
         </div>
     </section>
 
+    <div class="divider"></div>
+
+    <section id="apps">
+        <h2>🔌 Supported Backend Apps (50+)</h2>
+        <p style="margin-bottom: 2rem;">Click any app to see details and integration info:</p>
+        <div class="apps-grid" id="appsGrid"></div>
+    </section>
+
 </main>
+
+<div class="app-modal" id="appModal">
+    <div class="app-modal-content" id="appModalContent">
+        <button class="close-modal" onclick="closeAppModal()">✕</button>
+        <h3 id="appName"></h3>
+        <p><strong>Type:</strong> <span id="appType"></span></p>
+        <p><strong>Description:</strong> <span id="appDesc"></span></p>
+        <p><strong>Integration:</strong> <span id="appIntegration"></span></p>
+    </div>
+</div>
 
 <footer>
     <div class="footer-links">
@@ -568,6 +676,91 @@
         © 2026 • Licensed under Apache 2.0 • For authorized security testing only
     </p>
 </footer>
+
+<script>
+const apps = [
+    { name: "PostgreSQL", type: "Database", desc: "Advanced relational database", integration: "psycopg2 connector" },
+    { name: "MongoDB", type: "NoSQL", desc: "Document-based database", integration: "pymongo driver" },
+    { name: "Redis", type: "Cache", desc: "In-memory data store", integration: "redis-py client" },
+    { name: "Elasticsearch", type: "Search", desc: "Full-text search engine", integration: "elasticsearch-py" },
+    { name: "Docker", type: "Container", desc: "Container orchestration", integration: "docker SDK" },
+    { name: "Kubernetes", type: "Orchestration", desc: "Container management", integration: "kubernetes Python client" },
+    { name: "RabbitMQ", type: "Message Queue", desc: "Message broker", integration: "pika library" },
+    { name: "Kafka", type: "Streaming", desc: "Event streaming platform", integration: "kafka-python" },
+    { name: "GraphQL", type: "API", desc: "Query language for APIs", integration: "graphene library" },
+    { name: "gRPC", type: "RPC", desc: "High-performance RPC framework", integration: "grpcio" },
+    { name: "Apache Spark", type: "Big Data", desc: "Distributed computing", integration: "pyspark" },
+    { name: "Hadoop", type: "Big Data", desc: "Distributed data processing", integration: "mrjob" },
+    { name: "Neo4j", type: "Graph DB", desc: "Graph database", integration: "neo4j-driver" },
+    { name: "Cassandra", type: "NoSQL", desc: "Distributed NoSQL database", integration: "cassandra-driver" },
+    { name: "ClickHouse", type: "Analytics", desc: "Columnar database", integration: "clickhouse-driver" },
+    { name: "OpenSearch", type: "Search", desc: "Open-source search engine", integration: "opensearchpy" },
+    { name: "MinIO", type: "Storage", desc: "Object storage", integration: "minio SDK" },
+    { name: "AWS S3", type: "Cloud Storage", desc: "Amazon S3 storage", integration: "boto3" },
+    { name: "Azure Blob", type: "Cloud Storage", desc: "Azure blob storage", integration: "azure-storage-blob" },
+    { name: "Google Cloud Storage", type: "Cloud Storage", desc: "Google GCS", integration: "google-cloud-storage" },
+    { name: "Vault", type: "Secrets", desc: "Secret management", integration: "hvac" },
+    { name: "etcd", type: "Config", desc: "Distributed configuration", integration: "python-etcd3" },
+    { name: "Consul", type: "Service Mesh", desc: "Service mesh platform", integration: "python-consul" },
+    { name: "Prometheus", type: "Monitoring", desc: "Metrics monitoring", integration: "prometheus-client" },
+    { name: "Grafana", type: "Visualization", desc: "Metrics visualization", integration: "grafana-api" },
+    { name: "ELK Stack", type: "Logging", desc: "Elasticsearch Logstash Kibana", integration: "elasticsearch" },
+    { name: "Datadog", type: "APM", desc: "Application performance monitoring", integration: "datadog SDK" },
+    { name: "New Relic", type: "Observability", desc: "Full stack observability", integration: "newrelic" },
+    { name: "Jaeger", type: "Tracing", desc: "Distributed tracing", integration: "jaeger-client" },
+    { name: "Zipkin", type: "Tracing", desc: "Distributed tracing system", integration: "py-zipkin" },
+    { name: "OpenTelemetry", type: "Observability", desc: "Observability framework", integration: "opentelemetry-api" },
+    { name: "Sentry", type: "Error Tracking", desc: "Error and exception tracking", integration: "sentry-sdk" },
+    { name: "Splunk", type: "Analytics", desc: "Data analytics platform", integration: "splunk-sdk" },
+    { name: "Tableau", type: "BI", desc: "Business intelligence", integration: "tableau-server-client" },
+    { name: "Power BI", type: "BI", desc: "Microsoft business intelligence", integration: "pybit" },
+    { name: "Looker", type: "Analytics", desc: "Business intelligence platform", integration: "looker-sdk" },
+    { name: "Superset", type: "BI", desc: "Open-source BI tool", integration: "superset-api" },
+    { name: "FastAPI", type: "Framework", desc: "Modern Python web framework", integration: "fastapi" },
+    { name: "Django", type: "Framework", desc: "Full-featured web framework", integration: "django" },
+    { name: "Flask", type: "Framework", desc: "Lightweight web framework", integration: "flask" },
+    { name: "Celery", type: "Task Queue", desc: "Distributed task queue", integration: "celery" },
+    { name: "APScheduler", type: "Scheduling", desc: "Advanced job scheduling", integration: "apscheduler" },
+    { name: "Airflow", type: "Orchestration", desc: "Workflow orchestration", integration: "apache-airflow" },
+    { name: "Prefect", type: "Workflow", desc: "Modern workflow orchestration", integration: "prefect" },
+    { name: "Dask", type: "Parallel", desc: "Parallel computing", integration: "dask" },
+    { name: "Ray", type: "Distributed", desc: "Distributed computing", integration: "ray" },
+    { name: "MLflow", type: "ML Ops", desc: "Machine learning lifecycle", integration: "mlflow" },
+    { name: "DVC", type: "ML Pipeline", desc: "Data version control", integration: "dvc" },
+];
+
+function initializeApps() {
+    const grid = document.getElementById('appsGrid');
+    apps.forEach(app => {
+        const tag = document.createElement('div');
+        tag.className = 'app-tag';
+        tag.textContent = app.name;
+        tag.onclick = () => showAppModal(app);
+        grid.appendChild(tag);
+    });
+}
+
+function showAppModal(app) {
+    document.getElementById('appName').textContent = app.name;
+    document.getElementById('appType').textContent = app.type;
+    document.getElementById('appDesc').textContent = app.desc;
+    document.getElementById('appIntegration').textContent = app.integration;
+    document.getElementById('appModal').classList.add('active');
+}
+
+function closeAppModal() {
+    document.getElementById('appModal').classList.remove('active');
+}
+
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('appModal');
+    if (e.target === modal) {
+        closeAppModal();
+    }
+});
+
+document.addEventListener('DOMContentLoaded', initializeApps);
+</script>
 
 </body>
 </html>
