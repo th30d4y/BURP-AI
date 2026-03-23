@@ -1,0 +1,50 @@
+# Ignore Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Ignore virtual environments
+venv/
+env/
+ENV/
+
+# Ignore IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore configuration files with API keys
+config.json
+.env
+.env.local
+*.key
+*.pem
+
+# Ignore log files
+*.log
+burpaai.log
+
+# Ignore Burp Suite cache
+.BurpSuite/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore test outputs
+report.html
+test_results.json
+burpaai_results.json
+
+# Ignore temporary files
+*.tmp
+*.bak
+*~
+
+# Ignore package files
+dist/
+build/
+*.egg-info/
