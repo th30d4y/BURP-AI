@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BurpAI - AI-Powered Security Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --burnt-orange: #B8552F;
+            --mustard: #D4A635;
+            --cream: #F5E6D3;
+            --dark-brown: #46423A;
+            --avocado: #6B8E23;
+            --accent: #8B4513;
+        }
+
+        body {
+            font-family: 'Courier Prime', monospace;
+            background: linear-gradient(135deg, var(--cream) 0%, #F0DFC2 100%);
+            color: var(--dark-brown);
+            line-height: 1.6;
+            overscroll-behavior: none;
+        }
+
+        header {
+            background: var(--dark-brown);
+            color: var(--cream);
+            padding: 3rem 0;
+            border-bottom: 4px solid var(--burnt-orange);
+            box-shadow: 0 4px 0 var(--burnt-orange);
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            font-family: 'Space Mono', monospace;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: var(--mustard);
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: var(--burnt-orange);
+            color: var(--cream);
+            padding: 0.4rem 1rem;
+            border-radius: 2px;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            border: 2px solid var(--mustard);
+        }
+
+        nav {
+            background: var(--burnt-orange);
+            padding: 1rem 0;
+            border-bottom: 2px dashed var(--dark-brown);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            padding: 0 1rem;
+        }
+
+        nav a {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            border: 2px solid transparent;
+            padding: 0.3rem 0.6rem;
+        }
+
+        nav a:hover {
+            color: var(--mustard);
+            border-bottom: 2px solid var(--mustard);
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            background: var(--cream);
+            margin: 2rem 0;
+            padding: 2rem;
+            border: 3px solid var(--dark-brown);
+            box-shadow: 6px 6px 0 rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        section::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: 20px;
+            width: 16px;
+            height: 16px;
+            background: var(--burnt-orange);
+            border: 2px solid var(--dark-brown);
+        }
+
+        section::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            right: 20px;
+            width: 16px;
+            height: 16px;
+            background: var(--mustard);
+            border: 2px solid var(--dark-brown);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--burnt-orange);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            border-bottom: 3px solid var(--mustard);
+            padding-bottom: 0.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-box {
+            background: #FFF9F0;
+            border: 2px solid var(--burnt-orange);
+            padding: 1.5rem;
+            border-radius: 2px;
+            transition: transform 0.2s;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(184, 85, 47, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-box h4 {
+            color: var(--burnt-orange);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--burnt-orange);
+            color: var(--cream);
+            padding: 0.8rem 1.8rem;
+            text-decoration: none;
+            border: 2px solid var(--dark-brown);
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            margin: 0.5rem;
+            cursor: pointer;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .btn:hover {
+            background: var(--dark-brown);
+            color: var(--mustard);
+            transform: translate(2px, 2px);
+            box-shadow: 4px 4px 0 var(--mustard);
+        }
+
+        .btn-secondary {
+            background: var(--mustard);
+            color: var(--dark-brown);
+        }
+
+        .btn-secondary:hover {
+            background: var(--avocado);
+            color: var(--cream);
+        }
+
+        code {
+            background: #E8DCC8;
+            padding: 0.2rem 0.4rem;
+            border: 1px solid var(--burnt-orange);
+            font-family: 'Space Mono', monospace;
+            border-radius: 2px;
+        }
+
+        .command-block {
+            background: var(--dark-brown);
+            color: var(--mustard);
+            padding: 1.5rem;
+            border: 2px solid var(--burnt-orange);
+            margin: 1rem 0;
+            font-family: 'Courier Prime', monospace;
+            overflow-x: auto;
+            border-radius: 2px;
+        }
+
+        .command-block code {
+            background: transparent;
+            border: none;
+            color: var(--mustard);
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            border: 2px solid var(--burnt-orange);
+            padding: 0.8rem;
+            text-align: left;
+        }
+
+        th {
+            background: var(--burnt-orange);
+            color: var(--cream);
+            font-weight: 700;
+        }
+
+        tr:nth-child(even) {
+            background: #F9F3E9;
+        }
+
+        footer {
+            background: var(--dark-brown);
+            color: var(--cream);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 4px solid var(--burnt-orange);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--mustard);
+            text-decoration: none;
+            border-bottom: 1px solid var(--mustard);
+        }
+
+        .footer-links a:hover {
+            color: var(--cream);
+            border-color: var(--cream);
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--avocado);
+            color: var(--cream);
+            padding: 0.3rem 0.8rem;
+            margin: 0.2rem;
+            border: 1px solid var(--dark-brown);
+            border-radius: 2px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .hero-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin: 1.5rem 0;
+            color: var(--dark-brown);
+        }
+
+        .divider {
+            height: 3px;
+            background: repeating-linear-gradient(90deg, var(--burnt-orange), var(--burnt-orange) 10px, var(--mustard) 10px, var(--mustard) 20px);
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            section {
+                padding: 1.5rem;
+                margin: 1rem 0;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .highlight {
+            color: var(--burnt-orange);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <div class="logo">🤖 BURPAI</div>
+        <div class="tagline">AI-Powered Security Analysis for Burp Suite</div>
+        <div class="version-badge">Version 1.0 • Production Ready</div>
+    </div>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#quickstart">Quick Start</a></li>
+        <li><a href="#models">Models</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#download">Download</a></li>
+        <li><a href="https://github.com/Stalin-143/BURP-AI" target="_blank">GitHub</a></li>
+    </ul>
+</nav>
+
+<main>
+
+    <section id="hero">
+        <p class="hero-text">
+            <span class="highlight">BurpAI</span> brings the power of multi-model AI to your security testing workflow. 
+            Analyze HTTP requests in real-time and identify vulnerabilities with enterprise-grade AI models.
+        </p>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="#quickstart" class="btn">Get Started</a>
+            <a href="https://github.com/Stalin-143/BURP-AI" class="btn btn-secondary" target="_blank">View on GitHub</a>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="features">
+        <h2>✨ Features</h2>
+        <div class="features">
+            <div class="feature-box">
+                <div class="feature-icon">🧠</div>
+                <h4>Multi-Model AI</h4>
+                <p>11 AI models with automatic failover. Switch between Kimi, DeepSeek, GLM, Qwen, LLaMA, and more.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">⚡</div>
+                <h4>Real-Time Analysis</h4>
+                <p>Background threading—zero UI lag. Analyze requests instantly without blocking your workflow.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">🔍</div>
+                <h4>Smart Detection</h4>
+                <p>Priority detection for P1/P2 vulnerabilities: RCE, IDOR, SQLi, Auth bypass, and more.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">📋</div>
+                <h4>Native Repeater</h4>
+                <p>Built-in request/response editing with Burp's native editors. Full control in one place.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">📊</div>
+                <h4>Request History</h4>
+                <p>Automatic tracking of 1000+ requests. Never lose context on your security tests.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">💬</div>
+                <h4>Interactive Chat</h4>
+                <p>Custom prompts for targeted analysis. Ask the AI security expert any question.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="quickstart">
+        <h2>🚀 Quick Start</h2>
+        
+        <h3>1. Get API Key</h3>
+        <p>Sign up for <a href="https://cloud.digitalocean.com" style="color: var(--burnt-orange); font-weight: 700;" target="_blank">DigitalOcean AI</a> and create an API key.</p>
+
+        <h3>2. Load Extension</h3>
+        <div class="command-block">
+            <code>Burp Suite → Extensions → Add → Select burpaai.py</code>
+        </div>
+
+        <h3>3. Configure</h3>
+        <p>Enter your DigitalOcean API key in the BurpAI tab → Click <strong>Save</strong></p>
+
+        <h3>4. Analyze</h3>
+        <p>Load any request in Repeater → Click <strong>Analyze with AI</strong> → Review results</p>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="https://github.com/Stalin-143/BURP-AI/releases/tag/v1.0" class="btn" target="_blank">Download v1.0</a>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="models">
+        <h2>🧠 Supported Models</h2>
+        <p>Automatic failover across 11 enterprise-grade AI models:</p>
+        <div class="badge">Alibaba Qwen 3</div>
+        <div class="badge">DeepSeek R1</div>
+        <div class="badge">GLM-5</div>
+        <div class="badge">Kimi K2.5</div>
+        <div class="badge">LLaMA 3/3.3</div>
+        <div class="badge">Mistral Nemo</div>
+        <div class="badge">NVIDIA Nemotron</div>
+        <div class="badge">OpenAI GPT OSS</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="requirements">
+        <h2>📋 Requirements</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Requirement</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Burp Suite</strong></td>
+                    <td>Pro or Community Edition (latest)</td>
+                </tr>
+                <tr>
+                    <td><strong>API Key</strong></td>
+                    <td>DigitalOcean AI (free tier available)</td>
+                </tr>
+                <tr>
+                    <td><strong>Java</strong></td>
+                    <td>8+ (included with Burp)</td>
+                </tr>
+                <tr>
+                    <td><strong>Network</strong></td>
+                    <td>HTTPS outbound to AI API</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="security">
+        <h2>🛡️ Security First</h2>
+        <p>BurpAI is built with security as a core principle:</p>
+        <div style="margin: 1.5rem 0;">
+            <p>✅ <span class="highlight">HTTPS-only</span> API communication</p>
+            <p>✅ <span class="highlight">No telemetry</span> or tracking</p>
+            <p>✅ <span class="highlight">Local-only</span> data storage</p>
+            <p>✅ <span class="highlight">User-managed</span> API keys</p>
+            <p>✅ <span class="highlight">Open-source</span> for transparency</p>
+        </div>
+        
+        <h3>🐛 Report Security Vulnerabilities</h3>
+        <p>Found an issue? Use <a href="https://github.com/Stalin-143/BURP-AI/security/advisories/new" style="color: var(--burnt-orange); font-weight: 700;" target="_blank">GitHub Security Advisory</a> to report privately.</p>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <a href="https://github.com/Stalin-143/BURP-AI/blob/master/SECURITY.md" class="btn btn-secondary" target="_blank">Security Policy</a>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="download">
+        <h2>📥 Download</h2>
+        <p>Get the latest version from GitHub:</p>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="https://github.com/Stalin-143/BURP-AI/releases" class="btn" target="_blank">All Releases</a>
+            <a href="https://github.com/Stalin-143/BURP-AI/archive/refs/tags/v1.0.zip" class="btn btn-secondary" target="_blank">Download v1.0</a>
+        </div>
+        <p style="margin-top: 1.5rem; text-align: center;">
+            <strong>License:</strong> Apache 2.0 | 
+            <strong>Status:</strong> Production Ready
+        </p>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="docs">
+        <h2>📚 Documentation</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+            <a href="https://github.com/Stalin-143/BURP-AI/blob/master/README.md" class="btn" target="_blank" style="display: block; text-align: center;">README</a>
+            <a href="https://github.com/Stalin-143/BURP-AI/blob/master/SECURITY.md" class="btn" target="_blank" style="display: block; text-align: center;">Security Policy</a>
+            <a href="https://github.com/Stalin-143/BURP-AI/blob/master/CHANGELOG.md" class="btn" target="_blank" style="display: block; text-align: center;">Changelog</a>
+            <a href="https://github.com/Stalin-143/BURP-AI/blob/master/COLLABORATION.md" class="btn" target="_blank" style="display: block; text-align: center;">Contributing</a>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="footer-links">
+        <a href="https://github.com/Stalin-143/BURP-AI" target="_blank">GitHub</a>
+        <a href="https://github.com/Stalin-143/BURP-AI/issues" target="_blank">Issues</a>
+        <a href="https://github.com/Stalin-143/BURP-AI/discussions" target="_blank">Discussions</a>
+        <a href="https://github.com/Stalin-143/BURP-AI/security/advisories" target="_blank">Report Security</a>
+    </div>
+    <p style="margin-bottom: 1rem;">
+        <strong>BurpAI v1.0</strong> • Built for the modern security toolkit
+    </p>
+    <p style="font-size: 0.9rem; opacity: 0.8;">
+        © 2026 • Licensed under Apache 2.0 • For authorized security testing only
+    </p>
+</footer>
+
+</body>
+</html>
