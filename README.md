@@ -12,6 +12,20 @@ v1.0 • Apache 2.0 • Production
 
 ---
 
+## Overview
+
+BurpAI integrates advanced AI directly into Burp Suite to automate vulnerability detection and security analysis. Analyze HTTP requests in real-time with 11+ AI models, get intelligent insights, and collaborate with AI to find hidden vulnerabilities faster.
+
+**Key Features:**
+- 🧠 Multi-model AI engine with automatic fallback
+- ⚡ Zero-lag background processing
+- 🔍 Detects RCE, IDOR, SQLi, XSS, Auth bypass, and more
+- 💬 Interactive chat for custom security questions
+- 📊 Native request history and repeater
+- 🎯 One-click vulnerability analysis
+
+---
+
 ## Installation
 
 ### Prerequisites
