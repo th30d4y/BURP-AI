@@ -1,0 +1,22 @@
+name: Organization Issue/PR Bot Caller
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  org-bot:
+    uses: th30d4y/.github/.github/workflows/org-bot.yml@main
+    with:
+      event_type: ${{ github.event_name == 'issues' && 'Issue' || 'Pull Request' }}
+      number: ${{ github.event.issue.number || github.event.pull_request.number }}
+      title: ${{ github.event.issue.title || github.event.pull_request.title }}
+      url: ${{ github.event.issue.html_url || github.event.pull_request.html_url }}
+    secrets: inherit
