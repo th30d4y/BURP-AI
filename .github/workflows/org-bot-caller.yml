@@ -3,7 +3,7 @@ name: Organization Issue/PR Bot Caller
 on:
   issues:
     types: [opened]
-  pull_request:
+  pull_request_target:
     types: [opened]
 
 permissions:
