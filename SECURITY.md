@@ -52,4 +52,4 @@ Please include the following information in your report:
 
 Please do **not** publicly disclose the vulnerability until a fix has been released or we have mutually agreed on a disclosure timeline. We are committed to working with security researchers in good faith.
 
-Thank you for helping keep this project secure. 🔒
+Thank you for helping keep this project secure. 
