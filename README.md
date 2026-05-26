@@ -6,9 +6,12 @@
 
 v1.0 • Apache 2.0 • Production
 
+[![Self-Hosted Git](https://img.shields.io/badge/Self--Hosted-Gitea-green?style=flat-square\&logo=gitea\&logoColor=white)](https://git.w4nn4d13.tech/0x5t4l1n/BURP-AI)
+
 [🌐 Website](https://stalin-143.github.io/BURP-AI/) • [📖 Security](SECURITY.md) • [🐛 Issues](https://github.com/Stalin-143/BURP-AI/issues)
 
 </div>
+
 
 ---
 
